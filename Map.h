@@ -13,9 +13,9 @@ class Map
 		int PosY;
 
 		/*
-		Descripció: Function to make a "progressive operator overload" comparing the internal parameters of the struct.
-		Entrada: The pos variable (as a pointer).
-		Retorna: It returns a boolean value if the comparsion is true or not.
+		Description: Function to make a "progressive operator overload" comparing the internal parameters of the struct.
+		Input: The pos variable (as a pointer).
+		Return: It returns a boolean value if the comparsion is true or not.
 		*/
 		bool isEqual(pos *Other) { if ((PosX == Other->PosX) && (PosY == Other->PosY)) return true; else return false; }
 	};
@@ -37,23 +37,23 @@ public:
 	int getValueMapBox(int _posX, int _posY) { return _mazeReal[_posX][_posY]; }
 
 	/*
-	Descripció: Function to fill int one line the variables of the struct pos.
-	Entrada: The pos variable (as a pointer), the PosX and the PosY.
-	Retorna: Nothing, only changes the values of the pos variable.
+	Description: Function to fill int one line the variables of the struct pos.
+	Input: The pos variable (as a pointer), the PosX and the PosY.
+	Return: Nothing, only changes the values of the pos variable.
 	*/
-	void FillStruct(pos* _pointer, int _posX, int _posY);
+	void FillStruct(pos* _pointer, int _posY, int _posX);
 
 	/*
-	Descripció: Function to calculate the logical map of a maze.
-	Entrada: Nothing.
-	Retorna: Nothing, it just calculate the variable _mazeLogic[][] with the necessary values.
+	Description: Function to calculate the logical map of a maze.
+	Input: Nothing.
+	Return: Nothing, it just calculate the variable _mazeLogic[][] with the necessary values.
 	*/
 	void LogicalMap();
 
 	/*
-	Descripció: We create the real map (x3 than the logical map) to travel with walls.
-	Entrada: Nothing.
-	Retorna: Nothing, it just calculate the variable _mazeReal[][] with the necessary values.
+	Description: We create the real map (x3 than the logical map) to travel with walls.
+	Input: Nothing.
+	Return: Nothing, it just calculate the variable _mazeReal[][] with the necessary values.
 	*/
 	void RealMap();
 };

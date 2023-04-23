@@ -23,7 +23,7 @@ public:
 	void setMaze(Map* _valor) { _infoMaze = _valor; }
 
 protected:
-	bool thereIsAWall(int _posX, int _posY);
+	bool thereIsAWall(int _posY, int _posX);
 
 	// Initialization, update and render of every herency.
 	virtual void init() = 0;
