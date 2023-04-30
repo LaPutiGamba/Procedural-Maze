@@ -4,14 +4,16 @@ Map::Map()
 {
 	// Initialization of all the variables.
 	FillStruct(&_actualPosition, 0, 0);
+	FillStruct(&_finalPosition, 0, 0);
+	FillStruct(&_keyPosition, 0, 0);
 	_direction = 0;
 	_triedDirections = 0;
 	_numberBoxesTraveled = 0;
 
 	// Initialization of the maze with "walls" (0) for futures interactions. 
-	for (size_t y = 0; y < 8; y++)
+	for (size_t y = 0; y < MAPSIZEY; y++)
 	{
-		for (size_t x = 0; x < 8; x++)
+		for (size_t x = 0; x < MAPSIZEX; x++)
 		{
 			_mazeLogic[y][x] = 0;
 		}
@@ -44,7 +46,7 @@ void Map::LogicalMap()
 	pos previousPosition;
 
 	// Starting box with an open direction.
-	FillStruct(&_actualPosition, rand() % 8, rand() % 8);
+	FillStruct(&_actualPosition, rand() % MAPSIZEY, rand() % MAPSIZEX);
 	_boxesTraveled.push_back(_actualPosition);
 
 	do {
@@ -157,9 +159,9 @@ void Map::LogicalMap()
 void Map::RealMap()
 {
 	// We travel inside all the logic maze and we create the real maze with the structure. It's 3 times bigger the real maze.
-	for (size_t y = 0; y < 8; y++)
+	for (size_t y = 0; y < MAPSIZEY; y++)
 	{
-		for (size_t x = 0; x < 8; x++)
+		for (size_t x = 0; x < MAPSIZEX; x++)
 		{
 			switch (_mazeLogic[x][y]) {
 			case 0:
@@ -248,25 +250,71 @@ void Map::RealMap()
 		}
 	}
 
+	do {
+		_triedDirections = 0;
+		_finalPosition.PosY = rand() % (MAPSIZEY - 2) + 1;
+		_finalPosition.PosX = rand() % (MAPSIZEX - 2) + 1;
+
+		if (_mazeReal[_finalPosition.PosY][_finalPosition.PosX] == 0) {
+			if (_mazeReal[_finalPosition.PosY + 1][_finalPosition.PosX] == 0) _triedDirections |= 2;
+			if (_mazeReal[_finalPosition.PosY - 1][_finalPosition.PosX] == 0) _triedDirections |= 1;
+			if (_mazeReal[_finalPosition.PosY][_finalPosition.PosX + 1] == 0) _triedDirections |= 4;
+			if (_mazeReal[_finalPosition.PosY][_finalPosition.PosX - 1] == 0) _triedDirections |= 8;
+		}
+	} while (_triedDirections != 1 && _triedDirections != 2 && _triedDirections != 4 && _triedDirections != 8);
+
+	while (_mazeReal[_keyPosition.PosY][_keyPosition.PosX] != 0) { // If the _key box isn't in a walkable box we select another until it is.
+		_keyPosition.PosY = (rand() % 23 + 1);
+		_keyPosition.PosX = (rand() % 23 + 1);
+
+		while (_keyPosition.PosY % 2 != 0) _keyPosition.PosY = (rand() % 23 + 1); // If the generated number is not even we get another number until it is.
+		while (_keyPosition.PosX % 2 != 0) _keyPosition.PosX = (rand() % 23 + 1); // If the generated number is not even we get another number until it is.
+	}
+}
+
+void Map::PaintedMap(int playerPosY, int playerPosX)
+{
+	int diffY = 0, diffX = 0, playerVector = 0;
+	float boxVector = 0;
+
+
 	// We paint the real maze.
 	for (size_t y = 0; y < 24; y++)
 	{
 		for (size_t x = 0; x < 24; x++)
 		{
-			if (y == 0 && x == 0) ConsoleXY(0, 0);
+			diffY = y - playerPosY;
+			diffX = x - playerPosX;
+			boxVector = sqrt((diffY * diffY) + (diffX * diffX));
+			// Restar la posicion que quieres pintar (X + X y Y + Y) y luego haces pitagoras para saber lo largo que es el vector Math.sqrt((YFinal* 2) + (XFinal * 2))
+			// Si la distancia del punto que quiero pintar es menor que la distancia del jugador.
 
-			if (_mazeReal[y][x] == 0) { // If it's a walkable box we painted white.
-				ConsoleSetColor(WHITE, WHITE);
-				cout << "  ";
-			}
+			if (boxVector > 10) {
+				if (y == 0 && x == 0) ConsoleXY(0, 0);
 
-			if (_mazeReal[y][x] == 1) { // If it's a wall we painted red. 
-				ConsoleSetColor(RED, RED);
-				cout << "  ";
+				if (y == _finalPosition.PosY && x == _finalPosition.PosX) { // If it's the final box we painted it dark red.
+					ConsoleSetColor(DARKRED, DARKRED);
+					cout << "  ";
+				} else if (y == _keyPosition.PosY && x == _keyPosition.PosX) { // If it's the key box we paint the key. ********ERRORRRRRRR********
+						ConsoleSetColor(YELLOW, DARKYELLOW);
+						cout << "%%";
+						}
+						else {
+							if (_mazeReal[y][x] == 0) { // If it's a walkable box we painted white.
+								ConsoleSetColor(WHITE, WHITE);
+								cout << "  ";
+							}
+
+							if (_mazeReal[y][x] == 1) { // If it's a wall we painted red. 
+								ConsoleSetColor(RED, RED);
+								cout << "  ";
+							}
+						}
 			}
 		}
 		cout << endl;
 	}
 
 	ConsoleSetColor(WHITE, BLACK);
+	ConsoleXY(0, 24);
 }

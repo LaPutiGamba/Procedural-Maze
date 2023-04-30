@@ -3,7 +3,7 @@
 
 class Player : public Entity
 {
-	int _direction;
+	bool _key;
 
 public:
 	Player();
