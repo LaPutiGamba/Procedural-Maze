@@ -277,38 +277,34 @@ void Map::PaintedMap(int playerPosY, int playerPosX)
 	int diffY = 0, diffX = 0, playerVector = 0;
 	float boxVector = 0;
 
-
 	// We paint the real maze.
 	for (size_t y = 0; y < 24; y++)
 	{
 		for (size_t x = 0; x < 24; x++)
 		{
 			diffY = y - playerPosY;
+			diffY = abs(diffY);
 			diffX = x - playerPosX;
+			diffX = abs(diffX);
 			boxVector = sqrt((diffY * diffY) + (diffX * diffX));
 			// Restar la posicion que quieres pintar (X + X y Y + Y) y luego haces pitagoras para saber lo largo que es el vector Math.sqrt((YFinal* 2) + (XFinal * 2))
 			// Si la distancia del punto que quiero pintar es menor que la distancia del jugador.
 
-			if (boxVector > 10) {
-				if (y == 0 && x == 0) ConsoleXY(0, 0);
+			if (boxVector < 10) {
+				//if (y == 0 && x == 0) ConsoleXY(0, 0);
 
 				if (y == _finalPosition.PosY && x == _finalPosition.PosX) { // If it's the final box we painted it dark red.
 					ConsoleSetColor(DARKRED, DARKRED);
 					cout << "  ";
 				} else if (y == _keyPosition.PosY && x == _keyPosition.PosX) { // If it's the key box we paint the key. ********ERRORRRRRRR********
-						ConsoleSetColor(YELLOW, DARKYELLOW);
-						cout << "%%";
-						}
-						else {
-							if (_mazeReal[y][x] == 0) { // If it's a walkable box we painted white.
-								ConsoleSetColor(WHITE, WHITE);
-								cout << "  ";
-							}
-
-							if (_mazeReal[y][x] == 1) { // If it's a wall we painted red. 
-								ConsoleSetColor(RED, RED);
-								cout << "  ";
-							}
+					ConsoleSetColor(YELLOW, DARKYELLOW);
+					cout << "%%";
+					} else if (_mazeReal[y][x] == 0) { // If it's a walkable box we painted white.
+						ConsoleSetColor(WHITE, WHITE);
+						cout << "  ";
+						} else if (_mazeReal[y][x] == 1) { // If it's a wall we painted red. 
+							ConsoleSetColor(RED, RED);
+							cout << "  ";
 						}
 			}
 		}

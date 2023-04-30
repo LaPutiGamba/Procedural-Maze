@@ -10,6 +10,7 @@ int main() {
         ConsoleSetColor(BLACK, DARKMAGENTA);
         cout << "1. Play\n0. Exit\n";
         cin >> _option;
+        ConsoleClear();
         // consoleInKey();
 
         switch (_option) {
