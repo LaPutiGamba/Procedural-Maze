@@ -296,7 +296,7 @@ void Map::PaintedMap(int playerPosY, int playerPosX)
 				if (y == _finalPosition.PosY && x == _finalPosition.PosX) { // If it's the final box we painted it dark red.
 					ConsoleSetColor(DARKRED, DARKRED);
 					cout << "  ";
-				} else if (y == _keyPosition.PosY && x == _keyPosition.PosX) { // If it's the key box we paint the key. ********ERRORRRRRRR********
+				} else if (y == _keyPosition.PosY && x == _keyPosition.PosX) { // If it's the key box we paint the key.
 					ConsoleSetColor(YELLOW, DARKYELLOW);
 					cout << "%%";
 					} else if (_mazeReal[y][x] == 0) { // If it's a walkable box we painted white.
