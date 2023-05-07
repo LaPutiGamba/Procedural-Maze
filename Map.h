@@ -11,23 +11,17 @@ using namespace std;
 #define MAPSIZEX 8
 #define MAPREALSIZEY MAPSIZEY*3
 #define MAPREALSIZEX MAPSIZEX*3
+#define SIGHTRADIUS 5
 
 class Map
 {
 	struct pos {
 		int PosY;
 		int PosX;
-
-		/*
-		Description: Function to make a "progressive operator overload" comparing the internal parameters of the struct.
-		Input: The pos variable (as a pointer).
-		Return: It returns a boolean value if the comparsion is true or not.
-		*/
-		bool isEqual(pos *Other) { if ((PosY == Other->PosY) && (PosX == Other->PosX)) return true; else return false; }
 	};
 
 	vector<pos> _boxesTraveled;
-	pos _actualPosition, _finalPosition, _keyPosition;
+	pos _actualPosition, _finalPosition;
 	int _mazeLogic[MAPSIZEY][MAPSIZEX], _mazeReal[MAPREALSIZEY][MAPREALSIZEX];
 	int _numberBoxesTraveled, _direction, _triedDirections;
 
@@ -35,14 +29,16 @@ public:
 	Map();
 	~Map();
 
+	/*
+	Description: Get function to get the value of the variable.
+	Input: Nothing.
+	Return: The value of the variable.
+	*/
 	int getActualPositionY() { return _actualPosition.PosY; }
 	int getActualPositionX() { return _actualPosition.PosX; }
 	int getFinalPositionY() { return _finalPosition.PosY; }
 	int getFinalPositionX() { return _finalPosition.PosX; }	
-	int getKeyPositionY() { return _keyPosition.PosY; }
-	int getKeyPositionX() { return _keyPosition.PosX; }
 	int getValueMapBox(int _posY, int _posX) { return _mazeReal[_posY][_posX]; }
-	void setKeyPosition(int _posY, int _posX) { FillStruct(&_keyPosition, _posY, _posX); }
 
 	/*
 	Description: Function to fill int one line the variables of the struct pos.
@@ -59,11 +55,16 @@ public:
 	void LogicalMap();
 
 	/*
-	Description: We create the real map (x3 than the logical map) to travel with walls.
+	Description: Function to create the real map (x3 than the logical map) to travel with walls.
 	Input: Nothing.
 	Return: Nothing, it just calculate the variable _mazeReal[][] with the necessary values.
 	*/
 	void RealMap();
 
-	void PaintedMap(int playerPosY, int playerPosX);
+	/*
+	Description: Function to make the render of the map and make it visual.
+	Input: The PosY and PosX of the player or enemies, etc.
+	Return: Nothing, it just make the map visual.
+	*/
+	void PaintedMap(int _posY, int _posX);
 };

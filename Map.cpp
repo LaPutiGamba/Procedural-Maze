@@ -5,7 +5,6 @@ Map::Map()
 	// Initialization of all the variables.
 	FillStruct(&_actualPosition, 0, 0);
 	FillStruct(&_finalPosition, 0, 0);
-	FillStruct(&_keyPosition, 0, 0);
 	_direction = 0;
 	_triedDirections = 0;
 	_numberBoxesTraveled = 0;
@@ -38,8 +37,6 @@ void Map::FillStruct(pos* _pointer, int _posY, int _posX)
 
 void Map::LogicalMap()
 {
-	srand(time(NULL));
-
 	// Auxiliar variables (without _ to avoid confusing it with the parameters).
 	int directions[4] = { 1, 2, 4, 8 };
 	int direction;
@@ -146,14 +143,14 @@ void Map::LogicalMap()
 		_numberBoxesTraveled = 0; // Restart of _numberBoxesTraveled for check it again.
 
 		// Checking if all the boxes we're traveled.
-		for (size_t y = 0; y < 8; y++)
+		for (size_t y = 0; y < MAPSIZEY; y++)
 		{
-			for (size_t x = 0; x < 8; x++)
+			for (size_t x = 0; x < MAPSIZEX; x++)
 			{
 				if (_mazeLogic[y][x] != 0) _numberBoxesTraveled++; // Adding a traveled box to the number count.
 			}
 		}
-	} while (_numberBoxesTraveled < 64);
+	} while (_numberBoxesTraveled < (MAPSIZEY * MAPSIZEX));
 }
 
 void Map::RealMap()
@@ -252,8 +249,8 @@ void Map::RealMap()
 
 	do {
 		_triedDirections = 0;
-		_finalPosition.PosY = rand() % (MAPSIZEY - 2) + 1;
-		_finalPosition.PosX = rand() % (MAPSIZEX - 2) + 1;
+		_finalPosition.PosY = rand() % (MAPREALSIZEY - 2) + 1;
+		_finalPosition.PosX = rand() % (MAPREALSIZEX - 2) + 1;
 
 		if (_mazeReal[_finalPosition.PosY][_finalPosition.PosX] == 0) {
 			if (_mazeReal[_finalPosition.PosY + 1][_finalPosition.PosX] == 0) _triedDirections |= 2;
@@ -262,55 +259,44 @@ void Map::RealMap()
 			if (_mazeReal[_finalPosition.PosY][_finalPosition.PosX - 1] == 0) _triedDirections |= 8;
 		}
 	} while (_triedDirections != 1 && _triedDirections != 2 && _triedDirections != 4 && _triedDirections != 8);
-
-	while (_mazeReal[_keyPosition.PosY][_keyPosition.PosX] != 0) { // If the _key box isn't in a walkable box we select another until it is.
-		_keyPosition.PosY = (rand() % 23 + 1);
-		_keyPosition.PosX = (rand() % 23 + 1);
-
-		while (_keyPosition.PosY % 2 != 0) _keyPosition.PosY = (rand() % 23 + 1); // If the generated number is not even we get another number until it is.
-		while (_keyPosition.PosX % 2 != 0) _keyPosition.PosX = (rand() % 23 + 1); // If the generated number is not even we get another number until it is.
-	}
 }
 
-void Map::PaintedMap(int playerPosY, int playerPosX)
+void Map::PaintedMap(int _posY, int _posX)
 {
-	int diffY = 0, diffX = 0, playerVector = 0;
+	_posX = _posX / 2;
+	int diffY = 0, diffX = 0;
 	float boxVector = 0;
 
+	ConsoleClear();
+	ConsoleXY(0, 0);
+
 	// We paint the real maze.
-	for (size_t y = 0; y < 24; y++)
+	for (int y = 0; y < MAPREALSIZEY; y++)
 	{
-		for (size_t x = 0; x < 24; x++)
+		for (int x = 0; x < MAPREALSIZEX; x++)
 		{
-			diffY = y - playerPosY;
-			diffY = abs(diffY);
-			diffX = x - playerPosX;
-			diffX = abs(diffX);
-			boxVector = sqrt((diffY * diffY) + (diffX * diffX));
-			// Restar la posicion que quieres pintar (X + X y Y + Y) y luego haces pitagoras para saber lo largo que es el vector Math.sqrt((YFinal* 2) + (XFinal * 2))
-			// Si la distancia del punto que quiero pintar es menor que la distancia del jugador.
+			diffY = y - _posY;
+			diffX = x - _posX;
+			boxVector = (float)sqrt(((diffY * diffY) + (diffX * diffX)));
 
-			if (boxVector < 10) {
-				//if (y == 0 && x == 0) ConsoleXY(0, 0);
-
+			if (boxVector < SIGHTRADIUS) {
 				if (y == _finalPosition.PosY && x == _finalPosition.PosX) { // If it's the final box we painted it dark red.
 					ConsoleSetColor(DARKRED, DARKRED);
 					cout << "  ";
-				} else if (y == _keyPosition.PosY && x == _keyPosition.PosX) { // If it's the key box we paint the key.
-					ConsoleSetColor(YELLOW, DARKYELLOW);
-					cout << "%%";
-					} else if (_mazeReal[y][x] == 0) { // If it's a walkable box we painted white.
-						ConsoleSetColor(WHITE, WHITE);
+				} else if (_mazeReal[y][x] == 0) { // If it's a walkable box we painted white.
+					ConsoleSetColor(WHITE, WHITE);
+					cout << "  ";
+					} else if (_mazeReal[y][x] == 1) { // If it's a wall we painted red. 
+						ConsoleSetColor(RED, RED);
 						cout << "  ";
-						} else if (_mazeReal[y][x] == 1) { // If it's a wall we painted red. 
-							ConsoleSetColor(RED, RED);
-							cout << "  ";
-						}
+					}
+			} else { 
+				ConsoleSetColor(BLACK, BLACK);
+				cout << "  ";
 			}
 		}
 		cout << endl;
 	}
 
 	ConsoleSetColor(WHITE, BLACK);
-	ConsoleXY(0, 24);
 }
