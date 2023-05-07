@@ -10,6 +10,7 @@ class Entity
 
 protected:
 	int _X, _Y;
+	bool _status;
 
 	/*
 	Description: Function to get if there's a wall in the position that gets or no.
@@ -23,8 +24,8 @@ protected:
 	virtual void render(int _posY, int _posX) = 0;
 
 public:
-	Entity():_Y(0), _X(0), _pInfoMaze(nullptr) {}
-	~Entity();
+	Entity():_Y(0), _X(0), _status(false), _pInfoMaze(nullptr) {}
+	~Entity() {}
 
 	// Initialization.
 	void init();
@@ -36,6 +37,7 @@ public:
 	*/
 	int getY() { return _Y; }
 	int getX() { return _X; }
+	bool getStatus() { return _status; }
 	Map* getMaze() { return _pInfoMaze; }
 
 	/*
@@ -45,5 +47,6 @@ public:
 	*/
 	void setY(int _value) { _Y = _value; }
 	void setX(int _value) { _X = _value; }
+	void setStatus(bool value) { _status = value; }
 	void setMaze(Map* _value) { _pInfoMaze = _value; }
 };

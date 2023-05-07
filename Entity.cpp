@@ -1,9 +1,5 @@
 #include "Entity.h"
 
-Entity::~Entity()
-{
-}
-
 void Entity::init()
 {
 	while (getMaze()->getValueMapBox(_Y, (_X / 2)) != 0) { // If the starting box isn't in a walkable box we select another until it is.

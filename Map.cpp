@@ -25,10 +25,6 @@ Map::Map()
 	RealMap();
 }
 
-Map::~Map()
-{
-}
-
 void Map::FillStruct(pos* _pointer, int _posY, int _posX)
 {
 	_pointer->PosY = _posY;

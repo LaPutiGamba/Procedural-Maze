@@ -1,9 +1,5 @@
 #include "Enemy.h"
 
-Enemy::~Enemy()
-{
-}
-
 void Enemy::update()
 {
 	_direction = rand() % 4 + 1;

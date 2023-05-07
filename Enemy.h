@@ -8,7 +8,7 @@ class Enemy : public Entity
 
 public:
 	Enemy():_direction(0) {}
-	~Enemy();
+	~Enemy() {}
 
 	void update();
 	void render(int _posY, int _posX);

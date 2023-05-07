@@ -27,7 +27,7 @@ class Map
 
 public:
 	Map();
-	~Map();
+	~Map() {}
 
 	/*
 	Description: Get function to get the value of the variable.
