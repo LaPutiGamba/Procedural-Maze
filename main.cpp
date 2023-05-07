@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Map.h"
+#include "Sword.h"
 #include "Key.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -10,6 +11,7 @@ int main() {
     int _option = 0;
 
     do {
+        ConsoleXY(0, 0);
         paintCat();
         ConsoleXY(20, 12);
         ConsoleSetColor(DARKMAGENTA, LIGHTGREY);
@@ -24,15 +26,19 @@ int main() {
         case 49:
             // Creation of variables.
             Map* _pMaze = new Map(); // Create Map object in dynamic memory.
+            Sword* _pSword = new Sword(); // Create Sword object in dynamic memory.
             Key* _pKey = new Key(); // Create Key object in dynamic memory.
             Player* _pCharacter = new Player(); // Create Player object in dynamic memory.
             Enemy* _pMonsters = new Enemy(); // Create Enemy object in dynamic memory.
             bool endGame = false;
 
             // Initialitzation of the classes.
+            _pSword->setMaze(_pMaze);
+            _pSword->init();
             _pKey->setMaze(_pMaze);
             _pKey->init();
             _pCharacter->setMaze(_pMaze);
+            _pCharacter->setSword(_pSword);
             _pCharacter->setKey(_pKey);
             _pCharacter->init();
             _pMonsters->setMaze(_pMaze);
@@ -42,6 +48,15 @@ int main() {
             _pMaze->PaintedMap(_pCharacter->getY(), _pCharacter->getX());
             
             do {
+                // If the enemy is in the same position as the player and the player doesn't have the sword we kill him. If the player has the sword we kill the enemy.
+                if ((_pMonsters->getY() == _pCharacter->getY() && _pMonsters->getX() == _pCharacter->getX()) && ) _pCharacter->setStatus(false);
+
+                // If the player is in the same position of the sword we collect it.
+                if (_pSword->getY() == _pCharacter->getY() && _pSword->getX() == _pCharacter->getX()) _pSword->setSwordStatus(true);
+
+                // Paint of the sword in the map if we don't own it.
+                if (!_pSword->getSwordStatus()) _pSword->render(_pCharacter->getY(), _pCharacter->getX());
+
                 // If the player is in the same position of the key we collect it.
                 if (_pKey->getY() == _pCharacter->getY() && _pKey->getX() == _pCharacter->getX()) _pKey->setKeyStatus(true);
 
@@ -61,7 +76,7 @@ int main() {
 
                 // Wait 17ms (60 fps).
                 ConsoleWait(17);
-            } while (!endGame);
+            } while (_pCharacter->getStatus());
 
             delete _pMaze; // Delete the Map object.
             delete _pKey; // Delete the Key object.

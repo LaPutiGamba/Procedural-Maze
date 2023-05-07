@@ -5,10 +5,9 @@
 class Enemy : public Entity
 {
 	int _direction;
-	int _lastDirection;
 
 public:
-	Enemy():_direction(0), _lastDirection(0) {}
+	Enemy():_direction(0) {}
 	~Enemy();
 
 	void update();

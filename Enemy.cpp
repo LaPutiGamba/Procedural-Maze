@@ -12,30 +12,22 @@ void Enemy::update()
 	case 1: // North direction.
 		if (!thereIsAWall((_Y - 1), _X)) {
 			_Y--;
-			_lastDirection = 1;
 		}
-		_lastDirection = 0;
 		break;
 	case 2: // South direction.
 		if (!thereIsAWall((_Y + 1), _X)) {
 			_Y++;
-			_lastDirection = 2;
 		}
-		_lastDirection = 0;
 		break;
 	case 3: // East direction.
 		if (!thereIsAWall(_Y, (_X + 2))) {
 			_X += 2;
-			_lastDirection = 3;
 		}
-		_lastDirection = 0;
 		break;
 	case 4: // West direction.
 		if (!thereIsAWall(_Y, (_X - 2))) {
 			_X -= 2;
-			_lastDirection = 4;
 		}
-		_lastDirection = 0;
 		break;
 	default:
 		break;

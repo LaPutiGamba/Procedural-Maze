@@ -23,7 +23,7 @@ protected:
 	virtual void render(int _posY, int _posX) = 0;
 
 public:
-	Entity():_X(0), _Y(0), _pInfoMaze(nullptr) {}
+	Entity():_Y(0), _X(0), _pInfoMaze(nullptr) {}
 	~Entity();
 
 	// Initialization.
@@ -34,8 +34,8 @@ public:
 	Input: Nothing.
 	Return: The value of the variable.
 	*/
-	int getX() { return _X; }
 	int getY() { return _Y; }
+	int getX() { return _X; }
 	Map* getMaze() { return _pInfoMaze; }
 
 	/*
@@ -43,7 +43,7 @@ public:
 	Input: The value of the variable.
 	Return: Nothing.
 	*/
-	void setX(int _value) { _X = _value; }
 	void setY(int _value) { _Y = _value; }
+	void setX(int _value) { _X = _value; }
 	void setMaze(Map* _value) { _pInfoMaze = _value; }
 };

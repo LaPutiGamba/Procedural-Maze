@@ -9,7 +9,7 @@ void Player::update()
 {
 	int tecla = ConsoleInKey();
 
-	// If the player is trying to go to a wall it won't change the position but if it's a walkable box it will change.
+	// If the player is trying to go to a wall it won't change the position but if it's a walkable box it will.
 	switch (tecla) {
 	case KB_UP: case KB_UP2: case KB_UP3:
 		if (!thereIsAWall((_Y - 1), _X)) {
@@ -42,7 +42,7 @@ void Player::update()
 
 void Player::render(int _posY, int _posX)
 {
-	if (!_sword) { // Painting of the player if it doesn't own the sword.
+	if (!_sword->getSwordStatus()) { // Painting of the player if it doesn't own the sword.
 		ConsoleXY(_X, _Y);
 		ConsoleSetColor(BLACK, WHITE);
 		cout << '\2' << '\2';
