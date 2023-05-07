@@ -45,20 +45,19 @@ int main() {
                 // If the player is in the same position of the key we collect it.
                 if (_pKey->getY() == _pCharacter->getY() && _pKey->getX() == _pCharacter->getX()) _pKey->setKeyStatus(true);
 
-                // Update of values of the character (mostly the position).
-                _pCharacter->update();
-                
-                // Update of values of the monsters.
-                if ((rand() % 4) == 3) _pMonsters->update();
-
                 // Paint of the key in the map if we don't own it.
                 if (!_pKey->getKeyStatus()) _pKey->render(_pCharacter->getY(), _pCharacter->getX());
 
-                // Paint of the character in the map.
+                // Update of values (mostly the position) and render of the character.
+                _pCharacter->update();
                 _pCharacter->render(NULL, NULL);
 
-                // Paint of the monster in the map.
-                _pMonsters->render(_pCharacter->getY(), _pCharacter->getX());
+                // Update of values and render of the monsters.
+                if ((rand() % 10) == 5) {
+                    _pMonsters->update();
+                    _pMaze->PaintedMap(_pCharacter->getY(), _pCharacter->getX());
+                    _pMonsters->render(_pCharacter->getY(), _pCharacter->getX());
+                }
 
                 // Wait 17ms (60 fps).
                 ConsoleWait(17);

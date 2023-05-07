@@ -55,27 +55,5 @@ void Enemy::render(int _posY, int _posX)
 		ConsoleXY(_X, _Y);
 		ConsoleSetColor(DARKMAGENTA, WHITE);
 		cout << '\2' << '\2';
-
-		ConsoleSetColor(WHITE, WHITE);
-		switch (_lastDirection) {
-		case 1: // North direction painting of the past box.
-			ConsoleXY(_X, (_Y + 1));
-			cout << "  ";	
-			break;
-		case 2: // South direction painting of the past box.
-			ConsoleXY(_X, (_Y - 1));
-			cout << "  ";
-			break;
-		case 3: // East direction painting of the past box.
-			ConsoleXY((_X - 2), _Y);
-			cout << "  ";
-			break;
-		case 4: // West direction painting of the past box.
-			ConsoleXY((_X + 2), _Y);
-			cout << "  ";
-			break;
-		default:
-			break;
-		}
 	}
 }
