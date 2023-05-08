@@ -11,7 +11,7 @@ using namespace std;
 #define MAPSIZEX 8
 #define MAPREALSIZEY MAPSIZEY*3
 #define MAPREALSIZEX MAPSIZEX*3
-#define SIGHTRADIUS 5
+#define SIGHTRADIUS 6
 
 class Map
 {

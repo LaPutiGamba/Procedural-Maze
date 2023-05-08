@@ -5,6 +5,7 @@
 
 class Player : public Entity
 {
+	string _name;
 	int _points;
 	Sword* _sword;
 	Key* _key;
@@ -21,6 +22,7 @@ public:
 	Input: Nothing.
 	Return: The value of the variable.
 	*/
+	string getName() { return _name; }
 	int getPoints() { return _points; }
 
 	/*
@@ -28,6 +30,7 @@ public:
 	Input: The value of the variable.
 	Return: Nothing.
 	*/
+	void setName(string value) { _name = value; }
 	void setPoints(int value) { _points = (_points + value); }
 	void setSword(Sword* _value) { _sword = _value; }
 	void setKey(Key* _value) { _key = _value; }

@@ -12,6 +12,9 @@ int main() {
     srand((int)time(NULL));
     // Creation of variables.
     int _option = 0;
+    string _auxiliaryName;
+    vector<string> _names;
+    vector<int> _points;
     Map* _pMaze = nullptr;
     Sword* _pSword = nullptr;
     Key* _pKey = nullptr;
@@ -21,6 +24,7 @@ int main() {
     fstream _handler;
 
     do {
+        // CHOICE SELECTOR
         ConsoleXY(0, 0);
         paintCat();
         ConsoleXY(20, 12);
@@ -31,11 +35,14 @@ int main() {
         ConsoleXY(20, 14);
         cout << "0. Exit\n";
         ConsoleXY(23, 15);
+        _option = 0;
         while (_option == 0) _option = ConsoleInKey();
         ConsoleClear();
 
         switch (_option) {
         case 49:
+            _option = 0;
+
             // Creation of variables.
             _pMaze = new Map(); // Create Map object in dynamic memory.
             _pSword = new Sword(); // Create Sword object in dynamic memory.
@@ -55,13 +62,24 @@ int main() {
             _pMonsters->setMaze(_pMaze);
             _pMonsters->init();
 
+            // Asking the name of the player.
+            ConsoleXY(0, 0);
+            paintCat();
+            ConsoleXY(15, 12);
+            ConsoleSetColor(DARKMAGENTA, LIGHTGREY);
+            cout << "What's your name?\n";
+            ConsoleXY(19, 13);
+            cin >> _auxiliaryName;
+            _pCharacter->setName(_auxiliaryName);
+            ConsoleClear();
+
             // Initial painting of the map.
             _pMaze->PaintedMap(_pCharacter->getY(), _pCharacter->getX());
-            
+
             do {
                 // If the enemy is in the same position as the player and the player doesn't have the sword we kill him. If the player has the sword we kill the enemy.
-                if ((_pMonsters->getY() == _pCharacter->getY() && _pMonsters->getX() == _pCharacter->getX()) && !_pKey->getStatus()) _pCharacter->setStatus(true);
-                else if ((_pMonsters->getY() == _pCharacter->getY() && _pMonsters->getX() == _pCharacter->getX()) && _pKey->getStatus()) {
+                if ((_pMonsters->getY() == _pCharacter->getY() && _pMonsters->getX() == _pCharacter->getX()) && !_pSword->getStatus()) _pCharacter->setStatus(true);
+                else if ((_pMonsters->getY() == _pCharacter->getY() && _pMonsters->getX() == _pCharacter->getX()) && _pSword->getStatus()) {
                     _pMonsters->setStatus(true);
                     _pMonsters->setY(100);
                     _pMonsters->setX(100);
@@ -104,7 +122,7 @@ int main() {
             // Adding the points to the points list file of the top 10 best punctuations.
             _handler.open("PointsList.txt", ios::app); // Opening the file in the reading mode.
 
-            _handler << _pCharacter->getPoints() << ", ";
+            _handler << _pCharacter->getName() << "|" << _pCharacter->getPoints() << ",";
 
             _handler.close(); // Closing the file.
 
@@ -115,16 +133,22 @@ int main() {
             delete _pMonsters; // Delete the Enemy object.
             break;
         case 50:
+            _option = 0;
             paintListCat();
+
             // Reading the points of the points list file and giving the top 10 best punctuations in screen.
             _handler.open("PointsList.txt", ios::in); // Opening the file in the reading mode.
-            
+
             while (!_handler.eof()) { // Until is the end of the file we read.
-                getline(_handler, _listPointsText);
+                _handler >> _listPointsText;
+
+                _names.push_back(_listPointsText.substr(0, _listPointsText.find_first_of(124)));
+                //_points.push_back(_listPointsText.substr(0, _listPointsText.find_first_of(44)));
             }
 
-            _handler.close(); // Closing the file.
-            break;
+            _handler.close(); // Closing the file
+            while (_option == 0) _option = ConsoleInKey();
+            while (_option == KB_ESCAPE) break;
         default:
             break;
         }
