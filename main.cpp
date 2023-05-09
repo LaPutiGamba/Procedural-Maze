@@ -13,18 +13,20 @@ int main() {
     // Creation of variables.
     int _option = 0;
     string _auxiliaryName;
-    vector<string> _names;
-    vector<int> _points;
     Map* _pMaze = nullptr;
     Sword* _pSword = nullptr;
     Key* _pKey = nullptr;
     Player* _pCharacter = nullptr;
     Enemy* _pMonsters = nullptr;
-    string _listPointsText;
+    
     fstream _handler;
+    string _pointsTexts, _pointText, _name, _points;
+    vector<string> _listNames;
+    vector<int> _listPoints;
 
     do {
         // CHOICE SELECTOR
+        ConsoleClear();
         ConsoleXY(0, 0);
         paintCat();
         ConsoleXY(20, 12);
@@ -140,13 +142,37 @@ int main() {
             _handler.open("PointsList.txt", ios::in); // Opening the file in the reading mode.
 
             while (!_handler.eof()) { // Until is the end of the file we read.
-                _handler >> _listPointsText;
-
-                _names.push_back(_listPointsText.substr(0, _listPointsText.find_first_of(124)));
-                //_points.push_back(_listPointsText.substr(0, _listPointsText.find_first_of(44)));
+                getline(_handler, _pointsTexts);
             }
 
             _handler.close(); // Closing the file
+
+            while (_pointsTexts.find(44) != string::npos) { // Until it doesn't find a , will cut the names and the points and will save them.
+                _pointText = _pointsTexts.substr(0, _pointsTexts.find(44)); // Cutting the name and the points.
+                _name = _pointText.substr(0, _pointText.find(124)); // Separating the name.
+                _points = _pointText.substr(_pointText.find(124) + 1); // Separating the points.
+
+                _listPoints.push_back(stoi(_points)); // List of all the points to check the order later.
+                _listNames.push_back(_points + " - " + _name); // List of the visual display to the user. List of name and points.
+
+                _pointsTexts.erase(0, _pointsTexts.find(44) + 1); // Erase of the , to get another names.
+            }
+
+            for (size_t i = 0; i < _listPoints.size() - 1; i++) {
+                for (size_t j = i + 1; j < _listPoints.size(); j++) {
+                    if (_listPoints[i] < _listPoints[j]) { // Ordering the points with the sawp function.
+                        swap(_listPoints[i], _listPoints[j]);
+                        swap(_listNames[i], _listNames[j]);
+                    }
+                }
+            }
+
+            for (size_t i = 0; i < _listPoints.size() && i < 10; i++) {
+                ConsoleXY(25, 3 + i);
+                ConsoleSetColor(DARKMAGENTA, WHITE);
+                cout << _listNames[i] << endl; // Cout in the Paint Cat List.
+            }
+
             while (_option == 0) _option = ConsoleInKey();
             while (_option == KB_ESCAPE) break;
         default:
