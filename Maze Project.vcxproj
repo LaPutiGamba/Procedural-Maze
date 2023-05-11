@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cat.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="ConsoleControl.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -30,7 +30,7 @@
     <ClCompile Include="Sword.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cat.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="ConsoleControl.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />

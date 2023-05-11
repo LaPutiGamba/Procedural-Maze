@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Key.h"
 
 Map::Map()
 {
@@ -8,6 +9,8 @@ Map::Map()
 	_direction = 0;
 	_triedDirections = 0;
 	_numberBoxesTraveled = 0;
+	_key = new Key();
+	_sword = new Sword();
 
 	// Initialization of the maze with "walls" (0) for futures interactions. 
 	for (size_t y = 0; y < MAPSIZEY; y++)
@@ -276,6 +279,7 @@ void Map::PaintedMap(int _posY, int _posX)
 			boxVector = (float)sqrt(((diffY * diffY) + (diffX * diffX)));
 
 			if (boxVector < SIGHTRADIUS) {
+				ConsoleXY(x*2, y);
 				if (y == _finalPosition.PosY && x == _finalPosition.PosX) { // If it's the final box we painted it dark red.
 					ConsoleSetColor(DARKRED, DARKRED);
 					cout << "  ";
@@ -286,13 +290,7 @@ void Map::PaintedMap(int _posY, int _posX)
 						ConsoleSetColor(RED, RED);
 						cout << "  ";
 					}
-			} else { 
-				ConsoleSetColor(BLACK, BLACK);
-				cout << "  ";
-			}
+			} 
 		}
-		cout << endl;
 	}
-
-	ConsoleSetColor(WHITE, BLACK);
 }

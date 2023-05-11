@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Map.h"
+#include "Key.h"
 
 void Player::update()
 {
@@ -37,7 +39,7 @@ void Player::update()
 
 void Player::render(int _posY, int _posX)
 {
-	if (!_sword->getStatus()) { // Painting of the player if it doesn't own the sword.
+	if (!getMaze()->getSword()->getStatus()) { // Painting of the player if it doesn't own the sword.
 		ConsoleXY(_X, _Y);
 		ConsoleSetColor(BLACK, WHITE);
 		cout << '\2' << '\2';
@@ -49,11 +51,10 @@ void Player::render(int _posY, int _posX)
 
 	if (_Y == getMaze()->getFinalPositionY() && _X == (getMaze()->getFinalPositionX() * 2)) { // If the player is in the final position we paint a text.
 		ConsoleXY(52, 11);
-		if (!_key->getStatus()) { // If the player own the key we tell him to press E but if it haven't collected it we alert him.
+		if (!getMaze()->getKey()->getStatus()) { // If the player own the key we tell him to press E but if it haven't collected it we alert him.
 			cout << "You need to pick the key!";
-		}
-		else {
-			cout << "Press E to go down the stairs.";
+		} else {
+			_statusGame = true;
 		}
 	} else { // If it's not we paint black the alert.
 		ConsoleXY(52, 11);

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-#include "Map.h"
+//#include "Map.h"
+class Map; /* Preguntarle al Rafel */
 #include "ConsoleControl.h"
 using namespace std;
 

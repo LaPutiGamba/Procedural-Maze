@@ -1,4 +1,5 @@
 #include "Sword.h"
+#include "Map.h"
 
 void Sword::update()
 {

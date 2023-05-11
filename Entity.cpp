@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Map.h"
 
 void Entity::init()
 {

@@ -4,6 +4,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include "Sword.h"
+//#include "Key.h"
+class Key; /* Preguntarle al Rafel */
 #include "ConsoleControl.h"
 using namespace std;
 
@@ -24,6 +27,8 @@ class Map
 	pos _actualPosition, _finalPosition;
 	int _mazeLogic[MAPSIZEY][MAPSIZEX], _mazeReal[MAPREALSIZEY][MAPREALSIZEX];
 	int _numberBoxesTraveled, _direction, _triedDirections;
+	Sword* _sword;
+	Key* _key;
 
 public:
 	Map();
@@ -39,6 +44,8 @@ public:
 	int getFinalPositionY() { return _finalPosition.PosY; }
 	int getFinalPositionX() { return _finalPosition.PosX; }	
 	int getValueMapBox(int _posY, int _posX) { return _mazeReal[_posY][_posX]; }
+	Sword* getSword() { return _sword; }
+	Key* getKey() { return _key; }
 
 	/*
 	Description: Function to fill int one line the variables of the struct pos.

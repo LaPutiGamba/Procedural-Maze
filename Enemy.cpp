@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Map.h"
 
 void Enemy::update()
 {
@@ -40,6 +41,7 @@ void Enemy::render(int _posY, int _posX)
 	boxVector = (float)sqrt(((diffY * diffY) + (diffX * diffX)));
 
 	if (boxVector < SIGHTRADIUS) { // If we're on the player sight radius we paint the key.
+		getMaze()->PaintedMap(_posY, _posX);
 		ConsoleXY(_X, _Y);
 		ConsoleSetColor(DARKMAGENTA, WHITE);
 		cout << '\2' << '\2';

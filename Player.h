@@ -1,17 +1,14 @@
 #pragma once
 #include "Entity.h"
-#include "Sword.h"
-#include "Key.h"
 
 class Player : public Entity
 {
 	string _name;
 	int _points;
-	Sword* _sword;
-	Key* _key;
+	bool _statusGame;
 
 public:
-	Player():_points(0), _sword(nullptr), _key(nullptr) {}
+	Player():_points(0), _statusGame(false) {}
 	~Player() {}
 
 	void update();
@@ -24,6 +21,7 @@ public:
 	*/
 	string getName() { return _name; }
 	int getPoints() { return _points; }
+	bool getStatusGame() { return _statusGame; }
 
 	/*
 	Description: Set function to set the value of the variable.
@@ -32,6 +30,4 @@ public:
 	*/
 	void setName(string value) { _name = value; }
 	void setPoints(int value) { _points = (_points + value); }
-	void setSword(Sword* _value) { _sword = _value; }
-	void setKey(Key* _value) { _key = _value; }
 };
